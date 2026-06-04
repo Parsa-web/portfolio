@@ -468,42 +468,49 @@ document.addEventListener('DOMContentLoaded', function () {
             if (submitSpinner) submitSpinner.classList.remove('d-none');
 
             try {
-                const payload = {
-                    name: nameInput.value.trim(),
-                    email: emailInput.value.trim(),
-                    phone: phoneInput.value.trim(),
-                    message: messageInput.value.trim(),
-                    _subject: "پیام جدید از سایت پورتفولیو",
-                    _captcha: "false"
-                };
+    const payload = {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        message: messageInput.value.trim(),
+        _captcha: "false"
+    };
 
-                const response = await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
+    const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
 
-                const result = await response.json();
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-                if (result.success === true) {
-                    contactForm.reset();
-                    contactForm.classList.remove('was-validated');
-                    [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
-                        if (input) input.classList.remove('is-valid', 'is-invalid');
-                    });
-                    formAlert.classList.remove("d-none");
-                    formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    throw new Error("فرم ارسال نشد");
-                }
+    const result = await response.json();
 
-            } catch (error) {
-                console.error('Error:', error);
-                formError.classList.remove("d-none");
-                formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (result && !result.error) {
+        contactForm.reset();
+        contactForm.classList.remove('was-validated');
+
+        [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
+            if (input) {
+                input.classList.remove('is-valid', 'is-invalid');
+            }
+        });
+
+        formAlert.classList.remove("d-none");
+        formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+        throw new Error(result?.message || "فرم ارسال نشد");
+    }
+
+    } catch (error) {
+        console.error('Error:', error);
+        formError.classList.remove("d-none");
+        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } finally {
                 if (submitButton) submitButton.disabled = false;
                 if (submitText) {
