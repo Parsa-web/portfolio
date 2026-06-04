@@ -1,5 +1,4 @@
-const SCRIPT_URL =
-    "https://formsubmit.co/el/yuyuye";
+const SCRIPT_URL = "https://formsubmit.co/ajax/yuyuye";
 
 // Translations
 const translations = {
