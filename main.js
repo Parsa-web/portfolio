@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (submitSpinner) submitSpinner.classList.remove('d-none');
 
-            const SCRIPT_URL = "https://formsubmit.co/ajax/yuyuye";
+            const SCRIPT_URL = "https://formsubmit.co/ajax/dehghaniparsa89@gmail.com";
 
             try {
                 const formData = new FormData();
