@@ -478,14 +478,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     submittedAt: new Date().toISOString()
                 };
 
-                await fetch(SCRIPT_URL, {
+                const response = await fetch(SCRIPT_URL, {
                     method: "POST",
-                    mode: "no-cors",
                     headers: {
-                        "Content-Type": "text/plain"
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    throw new Error("Request failed");
+                }
+
+                const result = await response.json();
+
+                if (!result || result.status !== "success") {
+                    throw new Error(result && result.message ? result.message : "Form submission failed");
+                }
 
                 contactForm.reset();
                 contactForm.classList.remove('was-validated');
