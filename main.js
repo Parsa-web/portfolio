@@ -469,22 +469,23 @@ document.addEventListener('DOMContentLoaded', function () {
             if (submitSpinner) submitSpinner.classList.remove('d-none');
 
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        name: nameInput.value,
-                        email: emailInput.value,
-                        phone: phoneInput.value,
-                        message: messageInput.value
-                    })
-                });
+                const payload = {
+                    name: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    phone: phoneInput.value.trim(),
+                    message: messageInput.value.trim(),
+                    source: window.location.href,
+                    submittedAt: new Date().toISOString()
+                };
 
-                if (!response.ok) {
-                    throw new Error();
-                }
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain"
+                    },
+                    body: JSON.stringify(payload)
+                });
 
                 contactForm.reset();
                 contactForm.classList.remove('was-validated');
