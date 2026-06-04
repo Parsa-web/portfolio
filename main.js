@@ -100,14 +100,11 @@ const translations = {
                 emailError: "لطفاً یک ایمیل معتبر وارد کنید",
                 phone: "شماره تلفن",
                 phonePlaceholder: "09123456789",
-                phoneError: "لطفاً یک شماره تلفن معتبر وارد کنید",
+                phoneError: "شماره معتبر وارد کنید (مثال: 09123456789)",
                 message: "پیام",
                 messagePlaceholder: "پیام خود را بنویسید",
                 messageError: "لطفاً پیام خود را وارد کنید (حداقل ۱۰ کاراکتر)",
-                submit: "ارسال پیام",
-                submitting: "در حال ارسال...",
-                success: "پیام شما ثبت شد! خیلی زود خبر می‌دم.",
-                error: "خطایی رخ داد. لطفاً دوباره تلاش کنید."
+                submit: "ارسال پیام"
             }
         },
         footer: {
@@ -218,14 +215,11 @@ const translations = {
                 emailError: "Please enter a valid email address",
                 phone: "Phone Number",
                 phonePlaceholder: "+98 912 345 6789",
-                phoneError: "Please enter a valid phone number",
+                phoneError: "Enter a valid number (e.g. +98 912 345 6789)",
                 message: "Message",
                 messagePlaceholder: "Write your message",
                 messageError: "Please enter your message (minimum 10 characters)",
-                submit: "Send Message",
-                submitting: "Sending...",
-                success: "Your message has been sent! I'll get back to you soon.",
-                error: "An error occurred. Please try again."
+                submit: "Send Message"
             }
         },
         footer: {
@@ -398,11 +392,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailInput = document.getElementById("email");
     const phoneInput = document.getElementById("phone");
     const messageInput = document.getElementById("message");
-    const formAlert = document.getElementById("formAlert");
-    const formError = document.getElementById("formError");
-    const submitButton = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
-    const submitText = submitButton ? submitButton.querySelector('.submit-text') : null;
-    const submitSpinner = submitButton ? submitButton.querySelector('.spinner-border') : null;
 
     if (contactForm) {
         [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
@@ -416,6 +405,24 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        function isValidPhone(value) {
+            if (!value) return true;
+
+            if (!/^[\d\s+\-()]+$/.test(value)) return false;
+
+            const digits = value.replace(/\D/g, '');
+
+            if (digits.length < 10 || digits.length > 15) return false;
+
+            if (/^09\d{9}$/.test(digits)) return true;
+            if (/^989\d{9}$/.test(digits)) return true;
+            if (/^00989\d{9}$/.test(digits)) return true;
+            if (/^0[1-9]\d{9,10}$/.test(digits)) return true;
+            if (/^[1-9]\d{9,14}$/.test(digits)) return true;
+
+            return false;
+        }
+
         function validateField(field) {
             const value = field.value.trim();
             let isValid = true;
@@ -426,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 isValid = emailRegex.test(value);
             } else if (field === phoneInput) {
-                isValid = value === '' || /^[\d\s+\-()]{7,20}$/.test(value);
+                isValid = isValidPhone(value);
             } else if (field === messageInput) {
                 isValid = value.length >= 10;
             }
@@ -443,94 +450,80 @@ document.addEventListener('DOMContentLoaded', function () {
             return isValid;
         }
 
+        const SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbz3loXmGLWjeHENuc0wA2eFP-DdFTTOc6GZBJd5P67nJp09r2EikZbedDkfl0RORgQ/exec";
+
         contactForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            formAlert.classList.add("d-none");
-            formError.classList.add("d-none");
+            const fields = [
+                nameInput,
+                emailInput,
+                phoneInput,
+                messageInput
+            ];
 
-            // اعتبارسنجی فیلدها
-            let isValid = true;
+            let isFormValid = true;
 
-            if (!nameInput.value.trim()) {
-                nameInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                nameInput.classList.remove('is-invalid');
-            }
+            fields.forEach(field => {
+                if (!validateField(field)) {
+                    isFormValid = false;
+                }
+            });
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailInput.value.trim())) {
-                emailInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                emailInput.classList.remove('is-invalid');
-            }
-
-            if (phoneInput.value.trim() && !/^[\d\s+\-\(\)]{7,20}$/.test(phoneInput.value.trim())) {
-                phoneInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                phoneInput.classList.remove('is-invalid');
-            }
-
-            if (!messageInput.value.trim() || messageInput.value.trim().length < 10) {
-                messageInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                messageInput.classList.remove('is-invalid');
-            }
-
-            if (!isValid) {
-                contactForm.classList.add('was-validated');
+            if (!isFormValid) {
                 return;
             }
 
-            if (submitButton) submitButton.disabled = true;
-            if (submitText) {
-                submitText.textContent = getNestedTranslation('contact.form.submitting') || 'در حال ارسال...';
-            }
-            if (submitSpinner) submitSpinner.classList.remove('d-none');
+            const submitBtn =
+                contactForm.querySelector('button[type="submit"]');
 
-            const SCRIPT_URL = "https://formspree.io/f/mjgdvlny";
+            const originalText = submitBtn.textContent;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "در حال ارسال...";
 
             try {
+
                 const formData = new FormData();
+            
                 formData.append("name", nameInput.value.trim());
                 formData.append("email", emailInput.value.trim());
-                formData.append("phone", phoneInput.value.trim() || "");
+                formData.append("phone", phoneInput.value.trim());
                 formData.append("message", messageInput.value.trim());
-                formData.append("_captcha", "false");
+            
+                const response = await fetch(
+                    SCRIPT_URL,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
 
-                const response = await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    body: formData
-                });
+                const result = await response.json();
 
-                if (response.ok) {
+                if (result.success) {
+                    alert("پیام با موفقیت ارسال شد");
+
                     contactForm.reset();
-                    nameInput.classList.remove('is-valid', 'is-invalid');
-                    emailInput.classList.remove('is-valid', 'is-invalid');
-                    phoneInput.classList.remove('is-valid', 'is-invalid');
-                    messageInput.classList.remove('is-valid', 'is-invalid');
-                    contactForm.classList.remove('was-validated');
 
-                    formAlert.classList.remove("d-none");
-                    formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    fields.forEach(field => {
+                        field.classList.remove(
+                            "is-valid",
+                            "is-invalid"
+                        );
+                    });
                 } else {
-                    throw new Error("ارسال نشد");
+                    alert("خطا در ذخیره اطلاعات");
                 }
-
             } catch (error) {
                 console.error(error);
-                formError.classList.remove("d-none");
-                formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                alert(
+                    "خطا در ارتباط با سرور. اتصال اینترنت را بررسی کنید."
+                );
             } finally {
-                if (submitButton) submitButton.disabled = false;
-                if (submitText) {
-                    submitText.textContent = getNestedTranslation('contact.form.submit') || 'ارسال پیام';
-                }
-                if (submitSpinner) submitSpinner.classList.add('d-none');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         });
     }
@@ -793,13 +786,17 @@ function getNestedTranslation(key) {
     const ctx = canvas.getContext('2d');
     let particles = [];
     let mouse = { x: null, y: null };
-    let mouseIdleTimer;
+    let mouseLastMove = 0;
     let animationId;
-    const mouseIdleDelay = 350;
+    const mouseActiveMs = 120;
 
     function clearMouseTarget() {
         mouse.x = null;
         mouse.y = null;
+    }
+
+    function isMouseActive() {
+        return mouse.x !== null && (performance.now() - mouseLastMove) < mouseActiveMs;
     }
     
     // Set canvas size
@@ -820,6 +817,7 @@ function getNestedTranslation(key) {
             this.vy = (Math.random() - 0.5) * 0.8;
             this.radius = Math.random() * 2.5 + 1.5;
             this.opacity = Math.random() * 0.6 + 0.4;
+            this.baseOpacity = this.opacity;
         }
         
         update() {
@@ -834,8 +832,8 @@ function getNestedTranslation(key) {
             this.x = Math.max(0, Math.min(canvas.width, this.x));
             this.y = Math.max(0, Math.min(canvas.height, this.y));
             
-            // Mouse interaction
-            if (mouse.x !== null && mouse.y !== null) {
+            // Mouse interaction — only while cursor is actively moving
+            if (isMouseActive()) {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
@@ -847,8 +845,10 @@ function getNestedTranslation(key) {
                     this.vy += Math.sin(angle) * force * 0.02;
                     this.opacity = Math.min(1, this.opacity + force * 0.1);
                 } else {
-                    this.opacity = Math.max(0.2, this.opacity - 0.01);
+                    this.opacity = Math.max(this.baseOpacity, this.opacity - 0.01);
                 }
+            } else {
+                this.opacity += (this.baseOpacity - this.opacity) * 0.05;
             }
             
             // Limit velocity
@@ -933,13 +933,11 @@ function getNestedTranslation(key) {
         animationId = requestAnimationFrame(animate);
     }
     
-    // Mouse tracking
+    // Mouse tracking — influence only during movement, not when cursor is idle
     document.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
-
-        clearTimeout(mouseIdleTimer);
-        mouseIdleTimer = setTimeout(clearMouseTarget, mouseIdleDelay);
+        mouseLastMove = performance.now();
     });
     
     document.addEventListener('mouseleave', clearMouseTarget);
