@@ -1,5 +1,3 @@
-const SCRIPT_URL = "https://formsubmit.co/ajax/yuyuye";
-
 // Translations
 const translations = {
     fa: {
@@ -451,12 +449,39 @@ document.addEventListener('DOMContentLoaded', function () {
             formAlert.classList.add("d-none");
             formError.classList.add("d-none");
 
-            const isNameValid = validateField(nameInput);
-            const isEmailValid = validateField(emailInput);
-            const isPhoneValid = validateField(phoneInput);
-            const isMessageValid = validateField(messageInput);
+            // اعتبارسنجی فیلدها
+            let isValid = true;
 
-            if (!isNameValid || !isEmailValid || !isPhoneValid || !isMessageValid) {
+            if (!nameInput.value.trim()) {
+                nameInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                nameInput.classList.remove('is-invalid');
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                emailInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                emailInput.classList.remove('is-invalid');
+            }
+
+            if (phoneInput.value.trim() && !/^[\d\s+\-\(\)]{7,20}$/.test(phoneInput.value.trim())) {
+                phoneInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                phoneInput.classList.remove('is-invalid');
+            }
+
+            if (!messageInput.value.trim() || messageInput.value.trim().length < 10) {
+                messageInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                messageInput.classList.remove('is-invalid');
+            }
+
+            if (!isValid) {
                 contactForm.classList.add('was-validated');
                 return;
             }
@@ -467,50 +492,39 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (submitSpinner) submitSpinner.classList.remove('d-none');
 
+            const SCRIPT_URL = "https://formsubmit.co/ajax/yuyuye";
+
             try {
-    const payload = {
-        name: nameInput.value.trim(),
-        email: emailInput.value.trim(),
-        phone: phoneInput.value.trim(),
-        message: messageInput.value.trim(),
-        _captcha: "false"
-    };
+                const formData = new FormData();
+                formData.append("name", nameInput.value.trim());
+                formData.append("email", emailInput.value.trim());
+                formData.append("phone", phoneInput.value.trim() || "");
+                formData.append("message", messageInput.value.trim());
+                formData.append("_captcha", "false");
 
-    const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
+                const response = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: formData
+                });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
+                if (response.ok) {
+                    contactForm.reset();
+                    nameInput.classList.remove('is-valid', 'is-invalid');
+                    emailInput.classList.remove('is-valid', 'is-invalid');
+                    phoneInput.classList.remove('is-valid', 'is-invalid');
+                    messageInput.classList.remove('is-valid', 'is-invalid');
+                    contactForm.classList.remove('was-validated');
 
-    const result = await response.json();
+                    formAlert.classList.remove("d-none");
+                    formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error("ارسال نشد");
+                }
 
-    if (result && !result.error) {
-        contactForm.reset();
-        contactForm.classList.remove('was-validated');
-
-        [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
-            if (input) {
-                input.classList.remove('is-valid', 'is-invalid');
-            }
-        });
-
-        formAlert.classList.remove("d-none");
-        formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-        throw new Error(result?.message || "فرم ارسال نشد");
-    }
-
-    } catch (error) {
-        console.error('Error:', error);
-        formError.classList.remove("d-none");
-        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (error) {
+                console.error(error);
+                formError.classList.remove("d-none");
+                formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } finally {
                 if (submitButton) submitButton.disabled = false;
                 if (submitText) {
