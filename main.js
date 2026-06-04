@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxYtXKBOkfJEoN7cMflS3Q7fcMHCIYfqKxZqlDNjB7jJ2OCeWlEsW2P9XH6xupVbuFW/exec";
+    "https://script.google.com/macros/s/AKfycbzuZyO2KWWRC0Og088z3N-ARFncqfslpzkk-yQ394yJKQBiCn-EZLkHXfpSyOdJCI7K/exec";
 
 // Translations
 const translations = {
