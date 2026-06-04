@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbzuZyO2KWWRC0Og088z3N-ARFncqfslpzkk-yQ394yJKQBiCn-EZLkHXfpSyOdJCI7K/exec";
+    "https://formsubmit.co/el/yuyuye";
 
 // Translations
 const translations = {
@@ -474,38 +474,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     email: emailInput.value.trim(),
                     phone: phoneInput.value.trim(),
                     message: messageInput.value.trim(),
-                    source: window.location.href,
-                    submittedAt: new Date().toISOString()
+                    _subject: "پیام جدید از سایت پورتفولیو",
+                    _captcha: "false"
                 };
 
                 const response = await fetch(SCRIPT_URL, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify(payload)
                 });
 
-                if (!response.ok) {
-                    throw new Error("Request failed");
-                }
-
                 const result = await response.json();
 
-                if (!result || result.status !== "success") {
-                    throw new Error(result && result.message ? result.message : "Form submission failed");
+                if (result.success === true) {
+                    contactForm.reset();
+                    contactForm.classList.remove('was-validated');
+                    [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
+                        if (input) input.classList.remove('is-valid', 'is-invalid');
+                    });
+                    formAlert.classList.remove("d-none");
+                    formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error("فرم ارسال نشد");
                 }
 
-                contactForm.reset();
-                contactForm.classList.remove('was-validated');
-                [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
-                    if (input) input.classList.remove('is-valid', 'is-invalid');
-                });
-
-                formAlert.classList.remove("d-none");
-                formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
             } catch (error) {
+                console.error('Error:', error);
                 formError.classList.remove("d-none");
                 formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } finally {
@@ -776,7 +773,14 @@ function getNestedTranslation(key) {
     const ctx = canvas.getContext('2d');
     let particles = [];
     let mouse = { x: null, y: null };
+    let mouseIdleTimer;
     let animationId;
+    const mouseIdleDelay = 350;
+
+    function clearMouseTarget() {
+        mouse.x = null;
+        mouse.y = null;
+    }
     
     // Set canvas size
     function resizeCanvas() {
@@ -913,12 +917,13 @@ function getNestedTranslation(key) {
     document.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
+
+        clearTimeout(mouseIdleTimer);
+        mouseIdleTimer = setTimeout(clearMouseTarget, mouseIdleDelay);
     });
     
-    document.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
-    });
+    document.addEventListener('mouseleave', clearMouseTarget);
+    window.addEventListener('blur', clearMouseTarget);
     
     // Start animation
     animate();
