@@ -100,6 +100,7 @@ const translations = {
                 emailError: "لطفاً یک ایمیل معتبر وارد کنید",
                 phone: "شماره تلفن",
                 phonePlaceholder: "09123456789",
+                phoneRequiredError: "لطفاً شماره تلفن خود را وارد کنید",
                 phoneError: "شماره معتبر وارد کنید (موبایل: ۰۹۱۲۳۴۵۶۷۸۹ یا ثابت: ۰۲۱۱۲۳۴۵۶۷۸)",
                 message: "پیام",
                 messagePlaceholder: "پیام خود را بنویسید",
@@ -215,6 +216,7 @@ const translations = {
                 emailError: "Please enter a valid email address",
                 phone: "Phone Number",
                 phonePlaceholder: "+98 912 345 6789",
+                phoneRequiredError: "Please enter your phone number",
                 phoneError: "Enter a valid mobile or landline (e.g. 09123456789, +98 912 345 6789, 02112345678)",
                 message: "Message",
                 messagePlaceholder: "Write your message",
@@ -460,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function isValidPhone(value) {
-            if (!value) return true;
+            if (!value || !value.trim()) return false;
 
             const trimmed = value.trim();
             if (!/^[\d\s+\-().]+$/.test(trimmed)) return false;
@@ -485,7 +487,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 isValid = emailRegex.test(value);
             } else if (field === phoneInput) {
-                isValid = isValidPhone(value);
+                const phoneErrorEl = document.getElementById('phoneError');
+                if (!value) {
+                    isValid = false;
+                    if (phoneErrorEl) {
+                        phoneErrorEl.textContent = getNestedTranslation('contact.form.phoneRequiredError');
+                    }
+                } else {
+                    isValid = isValidPhone(value);
+                    if (phoneErrorEl) {
+                        phoneErrorEl.textContent = getNestedTranslation('contact.form.phoneError');
+                    }
+                }
             } else if (field === messageInput) {
                 isValid = value.length >= 10;
             }
