@@ -100,7 +100,7 @@ const translations = {
                 emailError: "لطفاً یک ایمیل معتبر وارد کنید",
                 phone: "شماره تلفن",
                 phonePlaceholder: "09123456789",
-                phoneError: "شماره معتبر وارد کنید (مثال: 09123456789)",
+                phoneError: "شماره معتبر وارد کنید (موبایل: ۰۹۱۲۳۴۵۶۷۸۹ یا ثابت: ۰۲۱۱۲۳۴۵۶۷۸)",
                 message: "پیام",
                 messagePlaceholder: "پیام خود را بنویسید",
                 messageError: "لطفاً پیام خود را وارد کنید (حداقل ۱۰ کاراکتر)",
@@ -215,7 +215,7 @@ const translations = {
                 emailError: "Please enter a valid email address",
                 phone: "Phone Number",
                 phonePlaceholder: "+98 912 345 6789",
-                phoneError: "Enter a valid number (e.g. +98 912 345 6789)",
+                phoneError: "Enter a valid mobile or landline (e.g. 09123456789, +98 912 345 6789, 02112345678)",
                 message: "Message",
                 messagePlaceholder: "Write your message",
                 messageError: "Please enter your message (minimum 10 characters)",
@@ -405,22 +405,74 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        const IRAN_MOBILE_PREFIX = /^09(0[1-5]|1[0-9]|2[0-2]|3[0-9]|9[0-9])\d{7}$/;
+
+        function normalizeIranianMobile(digits) {
+            if (/^09\d{9}$/.test(digits)) return digits;
+            if (/^989\d{9}$/.test(digits)) return '0' + digits.slice(2);
+            if (/^00989\d{9}$/.test(digits)) return '0' + digits.slice(4);
+            return null;
+        }
+
+        function isIranianMobile(digits) {
+            const normalized = normalizeIranianMobile(digits);
+            return normalized ? IRAN_MOBILE_PREFIX.test(normalized) : false;
+        }
+
+        function isIranianLandline(digits) {
+            if (!/^0[1-9]\d{9}$/.test(digits) || /^09/.test(digits)) return false;
+
+            const rest = digits.slice(1);
+            return /^[1-9]\d\d{8}$/.test(rest) || /^[1-9]\d{2}\d{7}$/.test(rest);
+        }
+
+        function normalizeIranianLandlineFromCountryCode(digits) {
+            if (/^9821\d{8}$/.test(digits)) return '0' + digits.slice(2);
+            if (/^98[1-9]\d{2}\d{7}$/.test(digits)) return '0' + digits.slice(2);
+            if (/^98[1-9]\d\d{8}$/.test(digits)) return '0' + digits.slice(2);
+            return null;
+        }
+
+        function isFakePhonePattern(digits) {
+            if (/^(\d)\1+$/.test(digits)) return true;
+            if (/^0?1234567890?$/.test(digits)) return true;
+            return false;
+        }
+
+        function isInternationalPhone(trimmed, digits) {
+            const startsWithPlus = trimmed.startsWith('+');
+            const startsWithDoubleZero = trimmed.startsWith('00');
+
+            if (!startsWithPlus && !startsWithDoubleZero) return false;
+            if (digits.length < 8 || digits.length > 15) return false;
+
+            if (digits.startsWith('98')) {
+                if (isIranianMobile(digits)) return true;
+
+                const landline = normalizeIranianLandlineFromCountryCode(digits);
+                if (landline && isIranianLandline(landline)) return true;
+            }
+
+            if (startsWithPlus && /^[1-9]\d{7,14}$/.test(digits)) return true;
+            if (startsWithDoubleZero && /^[1-9]\d{7,14}$/.test(digits)) return true;
+
+            return false;
+        }
+
         function isValidPhone(value) {
             if (!value) return true;
 
-            if (!/^[\d\s+\-()]+$/.test(value)) return false;
+            const trimmed = value.trim();
+            if (!/^[\d\s+\-().]+$/.test(trimmed)) return false;
 
-            const digits = value.replace(/\D/g, '');
+            const digits = trimmed.replace(/\D/g, '');
+            if (!digits.length || isFakePhonePattern(digits)) return false;
 
-            if (digits.length < 10 || digits.length > 15) return false;
-
-            if (/^09\d{9}$/.test(digits)) return true;
-            if (/^989\d{9}$/.test(digits)) return true;
-            if (/^00989\d{9}$/.test(digits)) return true;
-            if (/^0[1-9]\d{9,10}$/.test(digits)) return true;
-            if (/^[1-9]\d{9,14}$/.test(digits)) return true;
-
-            return false;
+            return (
+                isIranianMobile(digits) ||
+                isIranianLandline(digits) ||
+                isInternationalPhone(trimmed, digits)
+            );
         }
 
         function validateField(field) {
