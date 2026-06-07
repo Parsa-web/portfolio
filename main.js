@@ -1,7 +1,30 @@
 // Translations
 const translations = {
     fa: {
-        nav: { about: "درباره من", skills: "مهارت‌ها", tools: "ابزارها و تکنولوژی‌ها", portfolio: "نمونه‌کارها", contact: "ارتباط" },
+        meta: {
+            title: "پارسا دهقانی | برنامه‌نویس پایتون و توسعه‌دهنده فرانت‌اند",
+            description: "نمونه‌کارها و معرفی پارسا دهقانی، برنامه‌نویس پایتون و توسعه‌دهنده فرانت‌اند."
+        },
+        nav: {
+            home: "صفحه اصلی",
+            about: "درباره من",
+            skills: "مهارت‌ها",
+            tools: "ابزارها و تکنولوژی‌ها",
+            portfolio: "نمونه‌کارها",
+            contact: "ارتباط",
+            theme: "تغییر تم",
+            language: "تغییر زبان"
+        },
+        a11y: {
+            brandHome: "بازگشت به صفحه اصلی",
+            toggleTheme: "تغییر تم",
+            toggleLanguage: "تغییر زبان",
+            openMenu: "باز کردن منو",
+            closeMenu: "بستن منو",
+            viewDigikala: "مشاهده آنلاین پروژه دیجی‌کالا",
+            viewPanelModir: "مشاهده آنلاین پروژه پنل مدیر",
+            backToTop: "بازگشت به بالا"
+        },
         hero: {
             badge: "برنامه‌نویس پایتون و توسعه‌دهنده فرانت‌اند",
             title: "پارسا دهقانی",
@@ -30,20 +53,24 @@ const translations = {
             description: "ترکیبی از توسعه سمت کاربر و ساخت ابزارهای پشتیبان با پایتون که کمک می‌کند ایده‌ها سریع‌تر به محصول تبدیل شوند.",
             expanding: "در حال گسترش",
             python: {
-                concept: "Abstraction",
-                description: "اتومات‌سازی، اسکریپت‌نویسی و ساخت ابزارهای پشت صحنه برای پشتیبانی از پروژه‌های وب."
+                concept: "انتزاع",
+                description: "اتومات‌سازی، اسکریپت‌نویسی و ساخت ابزارهای پشت صحنه برای پشتیبانی از پروژه‌های وب.",
+                tags: { automation: "اتومات‌سازی", scripting: "اسکریپت‌نویسی", backend: "ابزارهای بک‌اند" }
             },
             html: {
-                concept: "Structure",
-                description: "معماری صفحات تمیز و قابل توسعه برای تجربه کاربری شفاف."
+                concept: "ساختار",
+                description: "معماری صفحات تمیز و قابل توسعه برای تجربه کاربری شفاف.",
+                tags: { semantics: "معناشناسی", architecture: "معماری", accessibility: "دسترس‌پذیری" }
             },
             css: {
-                concept: "Presentation",
-                description: "طراحی‌های واکنش‌گرا، انیمیشن‌های ظریف و رعایت جزئیات بصری."
+                concept: "ارائه بصری",
+                description: "طراحی‌های واکنش‌گرا، انیمیشن‌های ظریف و رعایت جزئیات بصری.",
+                tags: { responsive: "واکنش‌گرا", animations: "انیمیشن", layout: "سیستم چیدمان" }
             },
             js: {
-                concept: "Logic",
-                description: "تعامل‌های کاربر محور و پیاده‌سازی رفتارهای پویا در فرانت‌اند."
+                concept: "منطق",
+                description: "تعامل‌های کاربر محور و پیاده‌سازی رفتارهای پویا در فرانت‌اند.",
+                tags: { interactions: "تعامل", dynamic: "رفتار پویا", ux: "تجربه کاربری" }
             }
         },
         tools: {
@@ -62,7 +89,8 @@ const translations = {
                     name: "Chrome DevTools",
                     role: "پروفایل‌گیری Performance، بررسی Network و دیباگ UI در لحظه."
                 }
-            }
+            },
+            tags: { lint: "Lint/Format", debug: "دیباگ", liveShare: "Live Share", pr: "جریان PR", actions: "Actions", review: "بازبینی کد", perf: "کارایی", network: "شبکه", a11y: "دسترس‌پذیری" }
         },
         portfolio: {
             title: "نمونه‌کارها",
@@ -97,7 +125,12 @@ const translations = {
                 namePlaceholder: "نام و نام خانوادگی",
                 nameError: "لطفاً نام خود را وارد کنید",
                 email: "ایمیل",
+                emailPlaceholder: "example@email.com",
                 emailError: "لطفاً یک ایمیل معتبر وارد کنید",
+                sending: "در حال ارسال...",
+                success: "پیام با موفقیت ارسال شد",
+                errorSave: "خطا در ذخیره اطلاعات",
+                errorNetwork: "خطا در ارتباط با سرور. اتصال اینترنت را بررسی کنید.",
                 phone: "شماره تلفن",
                 phonePlaceholder: "09123456789",
                 phoneRequiredError: "لطفاً شماره تلفن خود را وارد کنید",
@@ -109,15 +142,47 @@ const translations = {
             }
         },
         footer: {
+            tagline: "ساخت تجربه‌های وب تمیز، سریع و کاربردی با پایتون و فرانت‌اند.",
+            quickLinks: "دسترسی سریع",
+            connect: "ارتباط",
+            madeWith: "ساخته شده با",
             copyright: "پارسا دهقانی. تمام حقوق محفوظ است.",
             backToTop: "بازگشت به بالا",
             email: "ایمیل",
             github: "گیت‌هاب"
         },
-        toast: { copied: "کپی شد" }
+        toast: {
+            copied: "کپی شد",
+            copyFailed: "برای کپی روی متن راست‌کلیک کنید.",
+            itemCopied: "{label} کپی شد: {value}",
+            emailCopied: "ایمیل من کپی شد: {value}"
+        }
     },
     en: {
-        nav: { about: "About", skills: "Skills", tools: "Tools & Technologies", portfolio: "Portfolio", contact: "Contact" },
+        meta: {
+            title: "Parsa Dehghani | Python Developer & Frontend Developer",
+            description: "Portfolio and introduction of Parsa Dehghani, Python developer and frontend developer."
+        },
+        nav: {
+            home: "Home",
+            about: "About",
+            skills: "Skills",
+            tools: "Tools & Technologies",
+            portfolio: "Portfolio",
+            contact: "Contact",
+            theme: "Toggle theme",
+            language: "Change language"
+        },
+        a11y: {
+            brandHome: "Back to home",
+            toggleTheme: "Toggle theme",
+            toggleLanguage: "Change language",
+            openMenu: "Open menu",
+            closeMenu: "Close menu",
+            viewDigikala: "View Digikala project online",
+            viewPanelModir: "View Manager Panel project online",
+            backToTop: "Back to top"
+        },
         hero: {
             badge: "Python Developer and Frontend Developer",
             title: "Parsa Dehghani",
@@ -147,19 +212,23 @@ const translations = {
             expanding: "Expanding",
             python: {
                 concept: "Abstraction",
-                description: "Automation, scripting, and building backend tools to support web projects."
+                description: "Automation, scripting, and building backend tools to support web projects.",
+                tags: { automation: "Automation", scripting: "Scripting", backend: "Backend Tools" }
             },
             html: {
                 concept: "Structure",
-                description: "Clean and scalable page architecture for seamless user experiences."
+                description: "Clean and scalable page architecture for seamless user experiences.",
+                tags: { semantics: "Semantics", architecture: "Architecture", accessibility: "Accessibility" }
             },
             css: {
                 concept: "Presentation",
-                description: "Responsive designs, subtle animations, and meticulous attention to visual details."
+                description: "Responsive designs, subtle animations, and meticulous attention to visual details.",
+                tags: { responsive: "Responsive", animations: "Animations", layout: "Layout Systems" }
             },
             js: {
                 concept: "Logic",
-                description: "User-centered interactions and implementing dynamic behaviors in the frontend."
+                description: "User-centered interactions and implementing dynamic behaviors in the frontend.",
+                tags: { interactions: "Interactions", dynamic: "Dynamic Behavior", ux: "User Experience" }
             }
         },
         tools: {
@@ -178,7 +247,8 @@ const translations = {
                     name: "Chrome DevTools",
                     role: "Live UI debugging plus performance and network profiling before shipping."
                 }
-            }
+            },
+            tags: { lint: "Lint/Format", debug: "Debug", liveShare: "Live Share", pr: "PR Workflow", actions: "Actions", review: "Code Review", perf: "Performance", network: "Network", a11y: "Accessibility" }
         },
         portfolio: {
             title: "Portfolio",
@@ -213,7 +283,12 @@ const translations = {
                 namePlaceholder: "Full Name",
                 nameError: "Please enter your name",
                 email: "Email",
+                emailPlaceholder: "example@email.com",
                 emailError: "Please enter a valid email address",
+                sending: "Sending...",
+                success: "Message sent successfully",
+                errorSave: "Error saving your information",
+                errorNetwork: "Server connection error. Please check your internet connection.",
                 phone: "Phone Number",
                 phonePlaceholder: "+98 912 345 6789",
                 phoneRequiredError: "Please enter your phone number",
@@ -225,12 +300,21 @@ const translations = {
             }
         },
         footer: {
+            tagline: "Building clean, fast, and practical web experiences with Python and frontend craft.",
+            quickLinks: "Quick Links",
+            connect: "Connect",
+            madeWith: "Built with",
             copyright: "Parsa Dehghani. All rights reserved.",
             backToTop: "Back to Top",
             email: "Email",
             github: "GitHub"
         },
-        toast: { copied: "Copied" }
+        toast: {
+            copied: "Copied",
+            copyFailed: "Right-click the text to copy.",
+            itemCopied: "{label} copied: {value}",
+            emailCopied: "My email copied: {value}"
+        }
     }
 };
 
@@ -308,6 +392,29 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Initial call
         updateOnScroll();
+    }
+
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        const toggleBackToTop = () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.hidden = false;
+                backToTopBtn.classList.add('is-visible');
+            } else {
+                backToTopBtn.classList.remove('is-visible');
+                backToTopBtn.hidden = true;
+            }
+        };
+
+        window.addEventListener('scroll', () => {
+            window.requestAnimationFrame(toggleBackToTop);
+        }, { passive: true });
+
+        toggleBackToTop();
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
     // Intersection Observer for scroll animations
@@ -518,6 +625,47 @@ document.addEventListener('DOMContentLoaded', function () {
         const SCRIPT_URL =
             "https://script.google.com/macros/s/AKfycbz3loXmGLWjeHENuc0wA2eFP-DdFTTOc6GZBJd5P67nJp09r2EikZbedDkfl0RORgQ/exec";
 
+        const formFeedback = document.getElementById('formFeedback');
+        let formFeedbackTimeout;
+
+        function hideFormFeedback(immediate = false) {
+            if (!formFeedback) return;
+            clearTimeout(formFeedbackTimeout);
+
+            if (immediate) {
+                formFeedback.hidden = true;
+                formFeedback.textContent = '';
+                formFeedback.classList.remove('is-visible', 'is-success', 'is-error');
+                return;
+            }
+
+            formFeedback.classList.remove('is-visible');
+            formFeedbackTimeout = setTimeout(() => {
+                formFeedback.hidden = true;
+                formFeedback.textContent = '';
+                formFeedback.classList.remove('is-success', 'is-error');
+            }, 350);
+        }
+
+        function showFormFeedback(message, type = 'success') {
+            if (!formFeedback) return;
+            hideFormFeedback(true);
+            formFeedback.textContent = message;
+            formFeedback.classList.remove('is-success', 'is-error');
+            formFeedback.classList.add(`is-${type}`);
+            formFeedback.hidden = false;
+
+            requestAnimationFrame(() => {
+                formFeedback.classList.add('is-visible');
+            });
+
+            formFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            if (type === 'success') {
+                formFeedbackTimeout = setTimeout(() => hideFormFeedback(), 8000);
+            }
+        }
+
         contactForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
@@ -546,7 +694,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const originalText = submitBtn.textContent;
 
             submitBtn.disabled = true;
-            submitBtn.textContent = "در حال ارسال...";
+            submitBtn.textContent = getNestedTranslation('contact.form.sending');
+            hideFormFeedback(true);
 
             try {
 
@@ -568,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (result.success) {
-                    alert("پیام با موفقیت ارسال شد");
+                    showFormFeedback(getNestedTranslation('contact.form.success'), 'success');
 
                     contactForm.reset();
 
@@ -579,13 +728,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         );
                     });
                 } else {
-                    alert("خطا در ذخیره اطلاعات");
+                    showFormFeedback(getNestedTranslation('contact.form.errorSave'), 'error');
                 }
             } catch (error) {
                 console.error(error);
-                alert(
-                    "خطا در ارتباط با سرور. اتصال اینترنت را بررسی کنید."
-                );
+                showFormFeedback(getNestedTranslation('contact.form.errorNetwork'), 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
@@ -608,6 +755,15 @@ document.addEventListener('DOMContentLoaded', function () {
         toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
         }, 2600);
+    }
+
+    function formatToastMessage(key, replacements = {}) {
+        let message = getNestedTranslation(key);
+        if (!message) return '';
+        Object.entries(replacements).forEach(([token, value]) => {
+            message = message.replace(`{${token}}`, value);
+        });
+        return message;
     }
 
     function copyToClipboard(value, message) {
@@ -636,7 +792,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.execCommand('copy');
             showToast(message || translations[currentLang].toast.copied + ': ' + value);
         } catch (error) {
-            showToast(currentLang === 'fa' ? 'برای کپی روی متن راست‌کلیک کنید.' : 'Right-click to copy.');
+            showToast(formatToastMessage('toast.copyFailed'));
         }
         document.body.removeChild(textarea);
     }
@@ -646,9 +802,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const value = item.getAttribute('data-copy');
             const labelKey = item.getAttribute('data-i18n-label') || 'contact.email';
             const label = getNestedTranslation(labelKey);
-            const message = currentLang === 'fa' 
-                ? `${label} کپی شد: ${value}`
-                : `${label} copied: ${value}`;
+            const message = formatToastMessage('toast.itemCopied', { label, value });
             copyToClipboard(value, message);
         });
     });
@@ -656,12 +810,48 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.contact-pop').forEach((button) => {
         button.addEventListener('click', () => {
             const value = button.getAttribute('data-contact');
-            const message = currentLang === 'fa' 
-                ? `ایمیل من کپی شد: ${value}`
-                : `My email copied: ${value}`;
+            const message = formatToastMessage('toast.emailCopied', { value });
             copyToClipboard(value, message);
         });
     });
+
+    const aboutTiltCards = document.querySelectorAll('.hover-3d-full');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+        aboutTiltCards.forEach((container) => {
+            const figure = container.querySelector('figure');
+            const layers = container.querySelectorAll(':scope > div');
+            if (!figure) return;
+
+            const maxRotate = 14;
+
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -maxRotate;
+                const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * maxRotate;
+
+                figure.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+                layers.forEach((layer, index) => {
+                    const depth = (index + 1) * 18;
+                    const opacity = Math.min(0.18, 0.04 + index * 0.02);
+                    layer.style.opacity = String(opacity);
+                    layer.style.transform = `translateZ(-${depth}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+            });
+
+            container.addEventListener('mouseleave', () => {
+                figure.style.transform = '';
+                layers.forEach((layer) => {
+                    layer.style.opacity = '';
+                    layer.style.transform = '';
+                });
+            });
+        });
+    }
 
     // Theme toggle
     // Theme toggle with checkbox
@@ -780,7 +970,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            if (window.innerWidth > 767.98 && hamburgerMenuOverlay && hamburgerMenuOverlay.classList.contains('active')) {
+            if (window.innerWidth > 991.98 && hamburgerMenuOverlay && hamburgerMenuOverlay.classList.contains('active')) {
                 closeHamburgerMenu();
             }
         }, 250);
@@ -802,7 +992,17 @@ function applyLanguage(lang) {
     html.setAttribute('lang', lang);
     html.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
 
-    // Update all elements with data-i18n
+    const pageTitle = getNestedTranslation('meta.title');
+    if (pageTitle) {
+        document.title = pageTitle;
+    }
+
+    const pageDescription = getNestedTranslation('meta.description');
+    if (pageDescription) {
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', pageDescription);
+    }
+
     document.querySelectorAll('[data-i18n]').forEach((el) => {
         const key = el.getAttribute('data-i18n');
         const text = getNestedTranslation(key);
@@ -811,7 +1011,6 @@ function applyLanguage(lang) {
         }
     });
 
-    // Update placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
         const key = el.getAttribute('data-i18n-placeholder');
         const text = getNestedTranslation(key);
@@ -820,7 +1019,6 @@ function applyLanguage(lang) {
         }
     });
 
-    // Update labels for contact items
     document.querySelectorAll('[data-i18n-label]').forEach((el) => {
         const key = el.getAttribute('data-i18n-label');
         const text = getNestedTranslation(key);
@@ -828,6 +1026,33 @@ function applyLanguage(lang) {
             el.setAttribute('data-label', text);
         }
     });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-aria');
+        const text = getNestedTranslation(key);
+        if (text) {
+            el.setAttribute('aria-label', text);
+        }
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-title');
+        const text = getNestedTranslation(key);
+        if (text) {
+            el.setAttribute('title', text);
+            if (!el.hasAttribute('data-i18n-aria')) {
+                el.setAttribute('aria-label', text);
+            }
+        }
+    });
+
+    const phoneInput = document.getElementById('phone');
+    const phoneErrorEl = document.getElementById('phoneError');
+    if (phoneInput && phoneErrorEl && phoneInput.classList.contains('is-invalid')) {
+        phoneErrorEl.textContent = phoneInput.value.trim()
+            ? getNestedTranslation('contact.form.phoneError')
+            : getNestedTranslation('contact.form.phoneRequiredError');
+    }
 }
 
 function getNestedTranslation(key) {
