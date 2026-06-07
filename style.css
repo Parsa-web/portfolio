@@ -1719,6 +1719,26 @@ section {
     background: #fff;
 }
 
+.contact-card .form-control:-webkit-autofill,
+.contact-card .form-control:-webkit-autofill:hover,
+.contact-card .form-control:-webkit-autofill:focus,
+.contact-card .form-control:-webkit-autofill:active,
+.contact-card .form-control:autofill {
+    -webkit-text-fill-color: var(--text-strong) !important;
+    caret-color: var(--text-strong);
+    border-color: rgba(var(--bs-primary-rgb), 0.15);
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
+    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
+    transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
+}
+
+.contact-card .form-control:-webkit-autofill:focus,
+.contact-card .form-control:autofill:focus {
+    border-color: var(--bs-primary);
+    -webkit-box-shadow: 0 0 0 1000px #fff inset, 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.2) !important;
+    box-shadow: 0 0 0 1000px #fff inset, 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
 .contact-card .form-control.is-valid {
     border-color: #28a745;
     padding-right: calc(1rem + 1.5rem);
@@ -3503,15 +3523,49 @@ footer,
     color: var(--text-strong);
 }
 
+[data-theme="dark"] .contact-card .form-control:focus {
+    background: rgba(20, 20, 30, 0.95);
+    color: var(--text-strong);
+}
+
+[data-theme="dark"] .contact-card .form-control:-webkit-autofill,
+[data-theme="dark"] .contact-card .form-control:-webkit-autofill:hover,
+[data-theme="dark"] .contact-card .form-control:-webkit-autofill:focus,
+[data-theme="dark"] .contact-card .form-control:-webkit-autofill:active,
+[data-theme="dark"] .contact-card .form-control:autofill {
+    -webkit-text-fill-color: var(--text-strong) !important;
+    caret-color: var(--text-strong);
+    border-color: rgba(255, 255, 255, 0.15);
+    -webkit-box-shadow: 0 0 0 1000px rgba(20, 20, 30, 0.9) inset !important;
+    box-shadow: 0 0 0 1000px rgba(20, 20, 30, 0.9) inset !important;
+}
+
+[data-theme="dark"] .contact-card .form-control:-webkit-autofill:focus,
+[data-theme="dark"] .contact-card .form-control:autofill:focus {
+    border-color: var(--bs-primary);
+    -webkit-box-shadow: 0 0 0 1000px rgba(20, 20, 30, 0.95) inset, 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.2) !important;
+    box-shadow: 0 0 0 1000px rgba(20, 20, 30, 0.95) inset, 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
 [data-theme="dark"] .contact-card .form-control::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-[data-theme="dark"] .contact-card .form-control.is-valid {
+[data-theme="dark"] .contact-card .form-control.is-valid,
+[data-theme="dark"] .contact-card .form-control.is-valid:-webkit-autofill {
     border-color: #28a745;
 }
 
-[data-theme="dark"] .contact-card .form-control.is-invalid {
+[data-theme="dark"] .contact-card .form-control.is-invalid,
+[data-theme="dark"] .contact-card .form-control.is-invalid:-webkit-autofill {
+    border-color: #dc3545;
+}
+
+.contact-card .form-control.is-valid:-webkit-autofill {
+    border-color: #28a745;
+}
+
+.contact-card .form-control.is-invalid:-webkit-autofill {
     border-color: #dc3545;
 }
 
